@@ -1,0 +1,17 @@
+---
+title: "Homework 5"
+output:
+  html_document:
+    theme: yeti
+    highlight: haddock
+---
+
+Describe the raw data. Create a city_state variable (e.g. “Baltimore, MD”) and then summarize within cities to obtain the total number of homicides and the number of unsolved homicides (those for which the disposition is “Closed without arrest” or “Open/No arrest”).
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+homocide = read_csv(file = "./data/homicide-data.csv")
+```
