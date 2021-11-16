@@ -1,12 +1,19 @@
 ---
 title: "Homework 5"
+author: Suhani Patel 
+date: 2021-11-11
 output:
   html_document:
+    toc: TRUE
+    toc_float: TRUE
+    code_folding: hide
     theme: yeti
     highlight: haddock
 ---
 
-Describe the raw data. Create a city_state variable (e.g. “Baltimore, MD”) and then summarize within cities to obtain the total number of homicides and the number of unsolved homicides (those for which the disposition is “Closed without arrest” or “Open/No arrest”).
+```{r setup, include=FALSE} 
+knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
+```
 
 ```{r}
 library(tidyverse)
@@ -15,3 +22,72 @@ library(tidyverse)
 ```{r}
 homocide = read_csv(file = "./data/homicide-data.csv")
 ```
+
+# Problem 1
+
+### Description of dataset 
+* The Homocide dataset includes `r length(homocide)` variables: `r variable.names(homocide)`.
+* The dataset has `r nrow(homocide)` rows and `r ncol(homocide)` columns.
+* The number of homocides in the dataset is `r count(homocide)`.
+
+### Total homcides and unsolved homocides
+```{r}
+homocide1 = homocide %>% 
+  mutate(
+    city_state = paste(city, state),
+    disposition = str_to_lower(disposition),
+    homocide_outcome = recode(disposition,
+                            "closed without arrest" = "unsolved",
+                            "open/no arrest" = "unsolved",
+                            "closed by arrest" = "solved"))
+```
+
+  
+```{r}
+homocide2 = homocide1 %>% 
+  group_by(city_state) %>% 
+  summarize(
+    homocides = n())
+```
+
+
+******
+
+# Problem 2
+
+******
+
+# Problem 3
+
+### importing data
+```{r}
+library(tidyverse)
+
+set.seed(10)
+
+iris_with_missing = iris %>% 
+  map_df(~replace(.x, sample(1:150, 20), NA)) %>%
+  mutate(Species = as.character(Species))
+```
+
+### creating a funtion 
+```{r}
+mean_numeric = function(x) {
+  
+  if (typeof(x) == "character") 
+  {x[is.na(x)]="virginica"}
+  
+  else 
+  {x[is.na(x)]= mean(x, na.rm = TRUE) }
+  
+  return(x)
+  }
+```
+
+
+### 4 loop using map statement
+
+```{r}
+output = map(iris_with_missing, mean_numeric) 
+```
+
