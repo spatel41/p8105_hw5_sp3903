@@ -12,7 +12,7 @@ output:
 ---
 
 ```{r setup, include=FALSE} 
-knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
+knitr::opts_chunk$set(warning = FALSE, message = FALSE, results = FALSE) 
 ```
 
 ```{r}
@@ -26,12 +26,12 @@ homocide = read_csv(file = "./data/homicide-data.csv", na = c("", "Unknown")) #c
 
 # Problem 1
 
-### Description of dataset 
+### Description of Dataset 
 * The Homocide dataset includes `r length(homocide)` variables: `r variable.names(homocide)`.
 * The dataset has `r nrow(homocide)` rows and `r ncol(homocide)` columns.
 * The number of homocides in the dataset is `r count(homocide)`.
 
-### Total homcides and unsolved homocides
+### Total Homcides
 ```{r}
 homocide = 
   read_csv(file = "./data/homicide-data.csv", na = c("", "Unknown")) %>%  #changes unknown to NA
@@ -44,7 +44,7 @@ homocide =
   filter(city_state != "TulsaAL")
 ```
 
-### Proportions of unsolved homocides and total number of homosides in Baltimore, MD
+### Proportions of Homocides in Baltimore
 ```{r}
 baltimore_df = homocide %>% 
   filter(city_state == "BaltimoreMD")
@@ -62,7 +62,7 @@ baltimore_test %>%
   broom::tidy()
 ```
 
-### Proportions of unsolved homocides and total number of homosides in all cities 
+### Proportions of Homocides all Cities
 ```{r}
 prop_test_function = function(city_df) {
   
@@ -130,7 +130,7 @@ dataframe = tibble(files = list.files("data/zip_data/")) %>%
 ```
 
 ### Plot 
-Make a spaghetti plot showing observations on each subject over time, and comment on differences between groups.
+
 ```{r}
 plot = dataframe %>% 
   group_by(files) %>%  
@@ -146,11 +146,13 @@ plot = dataframe %>%
 plot
 ```
 
+The experimental group has lower data values than the control group as time goes on. The control group has increasing data values over time while the experimental group has decreasing data values over time. 
+
 ******
 
 # Problem 3
 
-### importing data
+### Importing
 ```{r}
 library(tidyverse)
 
@@ -161,7 +163,7 @@ iris_with_missing = iris %>%
   mutate(Species = as.character(Species))
 ```
 
-### creating a funtion 
+### Function
 ```{r}
 fill_in_missing = function(x) {
   
@@ -176,7 +178,7 @@ fill_in_missing = function(x) {
   }
 ```
 
-### Map statement
+### Mapping 
 
 ```{r}
 output = map(iris_with_missing, fill_in_missing) 
